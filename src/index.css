@@ -13,3 +13,7 @@
   --color-accent:##1a1c1c;
   --color-accent-content:#4d4f4f;
 }
+
+a.active{
+    @apply bg-base-300
+}
