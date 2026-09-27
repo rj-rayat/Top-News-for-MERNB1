@@ -1,6 +1,17 @@
+import { useContext } from "react";
 import { BiUser } from "react-icons/bi";
+import { Link } from "react-router";
+import { AuthContext } from "../context/AuthContext";
 
 export default function MenuBar() {
+
+  const {user} = useContext(AuthContext)
+
+   const {signedOut} = useContext(AuthContext)
+  const signOutHandler = ()=>{
+    signedOut()
+  }
+
   return (
 
         <div className="navbar bg-base-100 ">
@@ -21,7 +32,10 @@ export default function MenuBar() {
     </ul>
   </div>
   <div className="navbar-end">
-    <a className="btn btn-primary"> <BiUser></BiUser> Login</a>
+    {
+      user ? <button onClick={signOutHandler} className="btn btn-primary"> Signout</button> : <Link to={'/login'} className="btn btn-primary"> <BiUser></BiUser> Login</Link>
+    }
+    
   </div>
 </div>
    

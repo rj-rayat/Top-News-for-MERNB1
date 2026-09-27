@@ -1,14 +1,15 @@
 import { FaEye, FaRegBookmark, FaShareAlt, FaStar } from "react-icons/fa";
+import { Link } from "react-router"; // React Router Link
 
 export default function NewsCard({ news }) {
-  // Safe destructuring with fallback values
   const {
+    id, // dynamic routing-er jonno id ta lagbe
     title,
     author,
     total_view,
     rating,
     thumbnail_url,
-    details,
+    details = "",
     tags,
     others,
   } = news || {};
@@ -16,7 +17,7 @@ export default function NewsCard({ news }) {
   return (
     <div className="card bg-base-100 shadow-md border border-base-200 hover:shadow-lg transition-shadow duration-300 rounded-xl overflow-hidden max-w-xl mx-auto my-4">
       
-      {/* 1. Header Section: Author Info & Action Buttons */}
+      {/* 1. Header Section */}
       <div className="flex items-center justify-between p-4 bg-base-200/50">
         <div className="flex items-center gap-3">
           <div className="avatar">
@@ -40,7 +41,6 @@ export default function NewsCard({ news }) {
           </div>
         </div>
 
-        {/* Action Icons */}
         <div className="flex items-center gap-2 text-base-content/70">
           <button className="btn btn-ghost btn-xs btn-circle hover:text-primary">
             <FaRegBookmark className="text-base" />
@@ -58,7 +58,7 @@ export default function NewsCard({ news }) {
         </h2>
       </div>
 
-      {/* 3. Media & Badges Section */}
+      {/* 3. Media & Badges */}
       <figure className="px-5 py-3 relative">
         <img
           src={thumbnail_url}
@@ -66,7 +66,6 @@ export default function NewsCard({ news }) {
           className="rounded-lg w-full h-56 object-cover"
         />
         
-        {/* Dynamic Badges */}
         <div className="absolute top-5 left-7 flex gap-2">
           {others?.is_trending && (
             <span className="badge badge-error text-white font-medium text-xs shadow-sm">
@@ -81,10 +80,22 @@ export default function NewsCard({ news }) {
         </div>
       </figure>
 
-      {/* 4. Details Body & Tags */}
+      {/* 4. Details with 200 Character Limit & Read More */}
       <div className="px-5 pb-3">
-        <p className="text-sm text-base-content/80 line-clamp-3 leading-relaxed">
-          {details}
+        <p className="text-sm text-base-content/80 leading-relaxed">
+          {details.length > 200 ? (
+            <>
+              {details.slice(0, 200)}...
+              <Link
+                to={`/news/${id}`}
+                className="text-primary font-bold hover:underline ml-1 cursor-pointer"
+              >
+                Read More
+              </Link>
+            </>
+          ) : (
+            details
+          )}
         </p>
 
         {/* Tags */}
@@ -102,10 +113,8 @@ export default function NewsCard({ news }) {
 
       <div className="divider my-0 px-5"></div>
 
-      {/* 5. Footer Section: Rating & Total Views */}
+      {/* 5. Footer Section */}
       <div className="flex items-center justify-between px-5 py-3 bg-base-100">
-        
-        {/* Rating */}
         <div className="flex items-center gap-1.5 text-warning">
           <div className="flex text-sm">
             {[...Array(5)].map((_, i) => (
@@ -124,12 +133,10 @@ export default function NewsCard({ news }) {
           </span>
         </div>
 
-        {/* Total Views */}
         <div className="flex items-center gap-1.5 text-base-content/70 text-xs">
           <FaEye className="text-sm" />
           <span className="font-semibold">{total_view?.toLocaleString()}</span>
         </div>
-
       </div>
     </div>
   );

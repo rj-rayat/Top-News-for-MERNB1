@@ -4,7 +4,10 @@ import { format } from "date-fns";
 import MenuBar from "./MenuBar";
 
 
+
 export default function Navbar() {
+
+  
   return (
     <div className="max-w-7xl mx-auto">
         <div>
